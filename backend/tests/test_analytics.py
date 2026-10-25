@@ -113,6 +113,19 @@ def test_selects_latest_forecast_before_decision_cutoff():
     assert result["coverage"]["eligible_forecasts"] == 1
 
 
+def test_cutoff_uses_europe_london_date_across_dst_transition():
+    result = evaluate_forecasts(
+        [actual("2026-03-29T00:30:00Z", 100)],
+        [
+            forecast("2026-03-29T00:30:00Z", "2026-03-28T10:00:00Z", 110),
+            forecast("2026-03-29T00:30:00Z", "2026-03-28T10:00:01Z", 120),
+        ],
+        cutoff_hour=10,
+    )
+
+    assert result["records"][0]["forecast_mw"] == 110
+
+
 def test_forecast_delivery_must_be_after_publication_and_before_cutoff():
     result = evaluate_forecasts(
         [actual("2026-01-02T12:00:00Z", 100)],

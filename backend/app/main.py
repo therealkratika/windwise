@@ -52,7 +52,9 @@ async def analysis(
 
     try:
         actuals = await fetch_wind_actuals(start, end)
-        forecasts = await fetch_wind_forecasts(start, end)
+        forecasts = await fetch_wind_forecasts(
+            start, end, cutoff_hour=cutoff_hour
+        )
         result = evaluate_forecasts(
             actuals, forecasts, cutoff_hour=cutoff_hour
         )

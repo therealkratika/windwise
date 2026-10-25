@@ -31,7 +31,8 @@ def test_valid_analysis_request_uses_mocked_upstream_data(monkeypatch):
     async def fake_actuals(start, end):
         return sample_actuals()
 
-    async def fake_forecasts(start, end):
+    async def fake_forecasts(start, end, cutoff_hour):
+        assert cutoff_hour == 10
         return sample_forecasts()
 
     monkeypatch.setattr(main, "fetch_wind_actuals", fake_actuals)
