@@ -12,7 +12,6 @@ import { fetchAnalysis } from '../api'
 import ForecastChart from '../components/ForecastChart'
 import MetricCard from '../components/MetricCard'
 import PeriodTable from '../components/PeriodTable'
-import Sidebar from '../components/Sidebar'
 
 const initialFilters = {
   start: '2026-01-01',
@@ -108,10 +107,8 @@ function Dashboard() {
     : `${appliedFilters.start} — ${appliedFilters.end}`
 
   return (
-    <div className="flex min-h-screen flex-col bg-[#f7f9fa] sm:flex-row">
-      <Sidebar />
-
-      <main className="mx-auto w-full max-w-[1500px] min-w-0 flex-1 px-4 py-6 sm:px-6 sm:py-8 lg:px-10 lg:py-10">
+    <div className="min-h-screen bg-[#f7f9fa]">
+      <main className="mx-auto w-full max-w-[1500px] min-w-0 px-4 py-6 sm:px-6 sm:py-8 lg:px-10 lg:py-10">
         {/* Page header */}
         <header className="flex flex-col justify-between gap-4 sm:flex-row sm:items-start">
           <div>

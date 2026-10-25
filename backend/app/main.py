@@ -1,5 +1,6 @@
 
 from datetime import date
+import os
 
 import httpx
 from fastapi import FastAPI, HTTPException, Query
@@ -7,6 +8,22 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.analytics import evaluate_forecasts
 from app.elexon import fetch_wind_actuals, fetch_wind_forecasts
+
+
+def _frontend_origins() -> list[str]:
+    configured = os.getenv("FRONTEND_ORIGIN", "")
+    if configured:
+        return [
+            origin.strip().rstrip("/")
+            for origin in configured.split(",")
+            if origin.strip()
+        ]
+
+    return [
+        "http://localhost:5173",
+        "http://127.0.0.1:5173",
+    ]
+
 
 app = FastAPI(
     title="WindWise API",
@@ -16,10 +33,7 @@ app = FastAPI(
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:5173",
-        "http://127.0.0.1:5173",
-    ],
+    allow_origins=_frontend_origins(),
     allow_methods=["GET"],
     allow_headers=["*"],
 )

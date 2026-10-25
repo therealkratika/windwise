@@ -6,6 +6,17 @@ from app import main
 client = TestClient(main.app)
 
 
+def test_frontend_origins_are_read_from_environment(monkeypatch):
+    monkeypatch.setenv(
+        "FRONTEND_ORIGIN",
+       "https://frontend-orcin-two-er1unc8o0r.vercel.app/",
+    )
+
+    assert main._frontend_origins() == [
+        "https://frontend-orcin-two-er1unc8o0r.vercel.app",
+    ]
+
+
 def sample_actuals():
     return [{"startTime": "2026-01-02T12:00:00Z", "generation": 100}]
 
